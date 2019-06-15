@@ -1,4 +1,4 @@
-require('dotenv').config();
+/*require('dotenv').config();
 const mongoose = require('mongoose');
 
 mongoose.set('debug', true);
@@ -56,3 +56,4 @@ const seed = async () => {
 };
 
 seed();
+*/
