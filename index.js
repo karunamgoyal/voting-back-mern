@@ -1,4 +1,4 @@
-//require('dotenv').config();
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -12,7 +12,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 
-const port = 3000;//process.env.PORT || 4000;
+const port = process.env.PORT || 4000;
 
 app.get('/',(req,res)=>res.json({hello:'world'}));
 app.use('/api/auth',routes.auth);

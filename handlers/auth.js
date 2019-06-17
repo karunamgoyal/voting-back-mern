@@ -1,5 +1,5 @@
 const db = require('../models');
-
+const jwt = require('jsonwebtoken');
 
 
 
@@ -7,10 +7,16 @@ exports.register = async (req,res,next)=>{
     try{
         const user = await db.User.create(req.body);
         const {id,username} = user;
-        res.json({id,username});
+        
+        const token = jwt.sign({id,username},process.env.SECRET);
+
+        res.status(201).json({id,username,token});
 
     }
     catch(err){
+        if(err.code == 11000)
+            err.message = "Sorry That username is already Taken";
+
         next(err);
     }
 
@@ -20,11 +26,14 @@ exports.login = async (req,res,next) => {
     try{
         const user = await db.User.findOne({username : req.body.username});
         const {id, username} = user;
-        const valid = await user.comparePasssword(req.body.password);
+        const valid = await user.comparePassword(req.body.password);
         if (valid){
+            
+            const token = jwt.sign({id,username},process.env.SECRET);
             res.json({
                 id,
-                username
+                username,
+                token
             });
         }
         else{
@@ -32,6 +41,7 @@ exports.login = async (req,res,next) => {
         }
     }
     catch(err){
-         next(err);
+        err.message = "Invalid username and password"; 
+        next(err);
     }
 }
