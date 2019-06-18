@@ -16,6 +16,7 @@ const port = process.env.PORT || 4000;
 
 app.get('/',(req,res)=>res.json({hello:'world'}));
 app.use('/api/auth',routes.auth);
+app.use('/api/polls',routes.poll);
 //MiddleWare
 //handling errors 
 app.use(handle.notFound);
